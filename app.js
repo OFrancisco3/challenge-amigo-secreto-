@@ -24,3 +24,33 @@ function agregarAmigo() {
         listaAmigos.appendChild(elementoLista);
     });
 }
+
+
+function sortearAmigo() {
+    if (amigos.length < 2) {
+        alert("Necesitas al menos dos amigos para realizar el sorteo.");
+        return;
+    }
+
+    const amigosDisponibles = [...amigos]; // Copia para no modificar el original
+    const asignaciones = {}; // Objeto para almacenar las asignaciones
+
+    amigos.forEach(amigo => {
+        let amigoSecreto;
+        do {
+            const indiceAleatorio = Math.floor(Math.random() * amigosDisponibles.length);
+            amigoSecreto = amigosDisponibles.splice(indiceAleatorio, 1)[0];
+        } while (amigoSecreto === amigo); // Asegurar que no sea su propio amigo secreto
+
+        asignaciones[amigo] = amigoSecreto;
+    });
+
+    const resultado = document.getElementById("resultado");
+    resultado.innerHTML = "";
+
+    for (const amigo in asignaciones) {
+        const elementoResultado = document.createElement("li");
+        elementoResultado.textContent = `${amigo}: ${asignaciones[amigo]}`;
+        resultado.appendChild(elementoResultado);
+    }
+}
